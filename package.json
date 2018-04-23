@@ -1,6 +1,6 @@
 {
   "name": "ensaphelon-gendiff",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Hexlet project \"Difference generator\"",
   "main": "index.js",
   "dependencies": {
@@ -22,10 +22,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "babel-node": "babel-node",
-    "start": "babel-node src/bin/gendiff -v",
+    "start": "babel-node src/bin/gendiff",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublish": "npm run build",
     "eslint": "eslint src/**"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ensaphelon/project-lvl2-s245.git"
   },
   "files": [
     "dist"

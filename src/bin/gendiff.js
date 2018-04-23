@@ -1,14 +1,10 @@
 #!/usr/bin/env node
-
-/**
- * Module dependencies.
- */
-
 import program from 'commander';
+import { version } from '../../package.json';
 
 program
-  .option('-f, --format [type]', 'Output format');
-
-program
-  .version('0.1.0')
+  .version(version)
+  .description('Compares two configuration files and shows a difference.')
+  .option('-f, --format [type]', 'Output format')
+  .arguments('<firstConfig> <secondConfig>')
   .parse(process.argv);
