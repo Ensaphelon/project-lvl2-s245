@@ -1,0 +1,41 @@
+{
+  "name": "ensaphelon-gendiff",
+  "version": "0.0.2",
+  "description": "Hexlet project \"Difference generator\"",
+  "main": "index.js",
+  "dependencies": {
+    "babel-eslint": "^8.2.3",
+    "commander": "^2.15.1",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.11.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-stage-0": "^6.24.1"
+  },
+  "bin": {
+    "gendiff": "dist/bin/gendiff.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel-node": "babel-node",
+    "start": "babel-node src/bin/gendiff -v",
+    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "prepublish": "npm run build",
+    "eslint": "eslint src/**"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "hexlet",
+    "difference",
+    "generator",
+    "gendiff"
+  ],
+  "author": "Ramil Musaev",
+  "license": "ISC"
+}
