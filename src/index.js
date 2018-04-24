@@ -15,7 +15,7 @@ export const printDiff = (diff) => {
       case 'deleted':
         return `${acc}\t- ${element.key}: ${element.value}\n`;
       case 'modified':
-        return `${acc}\t+ ${element.key}: ${element.oldValue}\n\t- ${element.key}: ${element.newValue}\n`;
+        return `${acc}\t- ${element.key}: ${element.oldValue}\n\t+ ${element.key}: ${element.newValue}\n`;
       default:
         return `${acc}\t${element.key}: ${element.value}\n`;
     }
