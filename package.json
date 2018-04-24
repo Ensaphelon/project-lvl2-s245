@@ -1,6 +1,6 @@
 {
   "name": "ensaphelon-gendiff",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Hexlet project \"Difference generator\"",
   "main": "index.js",
   "dependencies": {
@@ -8,7 +8,13 @@
     "commander": "^2.15.1",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^12.1.0",
-    "eslint-plugin-import": "^2.11.0"
+    "eslint-plugin-babel": "^5.1.0",
+    "eslint-plugin-flowtype": "^2.46.3",
+    "eslint-plugin-import": "^2.11.0",
+    "eslint-plugin-jest": "^21.15.1",
+    "flowtype": "^2.0.0",
+    "jest": "^22.4.3",
+    "lodash": "^4.17.5"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -20,9 +26,10 @@
     "gendiff": "dist/bin/gendiff.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test-dev": "jest --watch",
     "babel-node": "babel-node",
-    "start": "babel-node src/bin/gendiff",
+    "start": "babel-node src/bin/gendiff -V",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublish": "npm run build",
     "eslint": "eslint src/**"
