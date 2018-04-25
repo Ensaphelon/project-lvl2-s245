@@ -1,26 +1,47 @@
 import fs from 'fs';
+import yaml from 'js-yaml';
+import path from 'path';
 import _ from 'lodash';
 
-export const readFile = path => JSON.parse(fs.readFileSync(path));
+export const getParser = ext => (filePath) => {
+  const parsers = {
+    '.json': JSON.parse,
+    '.yaml': yaml.safeLoad,
+  };
+  if (!parsers[ext]) {
+    throw new Error(`Given format is not supported: ${ext}`);
+  }
+  return parsers[ext](fs.readFileSync(filePath, 'utf8'));
+};
 
-export const getKeys = (first, second) => _.uniq([...Object.keys(first), ...Object.keys(second)]);
+export const readFile = (filePath) => {
+  const ext = path.extname(filePath);
+  return getParser(ext)(filePath);
+};
 
-export const makeNode = key => (values, status) => ({ key, ...values, status });
+export const getKeys = (first, second) => _.union(_.keys(first), _.keys(second));
+
+export const makeNode = key => (values, type) => ({ key, ...values, type });
 
 export const printDiff = (diff) => {
   const result = diff.reduce((acc, element) => {
-    switch (element.status) {
-      case 'new':
-        return `${acc}\t+ ${element.key}: ${element.value}\n`;
+    switch (element.type) {
+      case 'added':
+        acc.push(`  + ${element.key}: ${element.value}`);
+        break;
       case 'deleted':
-        return `${acc}\t- ${element.key}: ${element.value}\n`;
+        acc.push(`  - ${element.key}: ${element.value}`);
+        break;
       case 'modified':
-        return `${acc}\t- ${element.key}: ${element.oldValue}\n\t+ ${element.key}: ${element.newValue}\n`;
+        acc.push(`  - ${element.key}: ${element.oldValue}\n  + ${element.key}: ${element.newValue}`);
+        break;
       default:
-        return `${acc}\t${element.key}: ${element.value}\n`;
+        acc.push(`  ${element.key}: ${element.value}`);
+        break;
     }
-  }, '');
-  return `{\n${result}}`;
+    return acc;
+  }, []);
+  return `{\n${result.join('\n')}\n}`;
 };
 
 export const buildDifference = (before, after) => {
@@ -36,7 +57,7 @@ export const buildDifference = (before, after) => {
       }
       return createNode({ value: before[key] }, 'deleted');
     }
-    return createNode({ value: after[key] }, 'new');
+    return createNode({ value: after[key] }, 'added');
   });
 };
 
