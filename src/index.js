@@ -1,4 +1,5 @@
 import fs from 'fs';
+import ini from 'ini';
 import yaml from 'js-yaml';
 import path from 'path';
 import _ from 'lodash';
@@ -7,6 +8,7 @@ export const getParser = ext => (filePath) => {
   const parsers = {
     '.json': JSON.parse,
     '.yaml': yaml.safeLoad,
+    '.ini': ini.parse,
   };
   if (!parsers[ext]) {
     throw new Error(`Given format is not supported: ${ext}`);

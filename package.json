@@ -1,6 +1,6 @@
 {
   "name": "ensaphelon-gendiff",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Hexlet project \"Difference generator\"",
   "main": "index.js",
   "dependencies": {
@@ -13,6 +13,7 @@
     "eslint-plugin-import": "^2.11.0",
     "eslint-plugin-jest": "^21.15.1",
     "flowtype": "^2.0.0",
+    "ini": "^1.3.5",
     "jest": "^22.4.3",
     "js-yaml": "^3.11.0",
     "lodash": "^4.17.5"

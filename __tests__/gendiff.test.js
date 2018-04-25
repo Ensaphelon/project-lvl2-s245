@@ -12,6 +12,8 @@ const compare = (before, after) => {
   expect(printDiff(difference)).toBe(expected);
 };
 
-test('Flat JSON-objects', () => compare('before.json', 'after.json'));
+test('Flat JSON', () => compare('before.json', 'after.json'));
 
-test('Flat YAML-objects', () => compare('before.yaml', 'after.yaml'));
+test('Flat YAML', () => compare('before.yaml', 'after.yaml'));
+
+test('Flat INI', () => compare('before.ini', 'after.ini'));
