@@ -1,0 +1,59 @@
+{
+  "common": {
+    "setting1": {
+      "type": "same",
+      "value": "Value 1",
+    },
+    "setting2": {
+      "type": "deleted",
+      "value": "200",
+    },
+    "setting3": {
+      "type": "modified",
+      "before": true,
+      "after": {
+        "key": "value"
+      }
+    },
+    "setting6": {
+      "key": {
+        "type": "same",
+        "value": "value"
+      },
+      "ops": {
+        "type": "new",
+        "value": "vops"
+      }
+    }
+  },
+  "group1": {
+    "baz": {
+      "type": "modified",
+      "before": "bas",
+      "after": "bars"
+    },
+    "foo": {
+      "type": "same",
+      "value": "bar"
+    },
+    "nest": {
+      "type": "modified",
+      "before": {
+        "key": "value"
+      },
+      "after": "str"
+    }
+  },
+  "group2": {
+    "type": "deleted",
+    "value": {
+      "abc": "12345"
+    }
+  },
+  "group3": {
+    "type": "new",
+    "value": {
+      "fee": "100500"
+    }
+  }
+}

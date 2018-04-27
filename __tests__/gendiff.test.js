@@ -1,19 +1,19 @@
 import path from 'path';
 import fs from 'fs';
-import { buildDifference, readFile, printDiff } from '../src';
+import genDiff from '../src';
 
 const getFixture = fileName => path.join(__dirname, '__fixtures__', fileName);
 
-const compare = (before, after) => {
-  const file1 = readFile(getFixture(before));
-  const file2 = readFile(getFixture(after));
-  const expected = fs.readFileSync(getFixture('diff.txt'), 'utf-8');
-  const difference = buildDifference(file1, file2);
-  expect(printDiff(difference)).toBe(expected);
+const compare = (before, after, diff) => {
+  const pathToBefore = getFixture(before);
+  const pathToAfter = getFixture(after);
+  const pathToDiff = getFixture(diff);
+  const expected = fs.readFileSync(pathToDiff, 'utf-8');
+  expect(genDiff(pathToBefore, pathToAfter)).toBe(expected);
 };
 
-test('Flat JSON', () => compare('before.json', 'after.json'));
+test('Flat JSON', () => compare('before.json', 'after.json', 'diff.txt'));
 
-test('Flat YAML', () => compare('before.yaml', 'after.yaml'));
+test('Flat YAML', () => compare('before.yaml', 'after.yaml', 'diff.txt'));
 
-test('Flat INI', () => compare('before.ini', 'after.ini'));
+test('Flat INI', () => compare('before.ini', 'after.ini', 'diff.txt'));

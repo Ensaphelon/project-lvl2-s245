@@ -16,7 +16,7 @@ export const getParser = ext => (filePath) => {
   return parsers[ext](fs.readFileSync(filePath, 'utf8'));
 };
 
-export const readFile = (filePath) => {
+export const getParsedFile = (filePath) => {
   const ext = path.extname(filePath);
   return getParser(ext)(filePath);
 };
@@ -25,7 +25,7 @@ export const getKeys = (first, second) => _.union(_.keys(first), _.keys(second))
 
 export const makeNode = key => (values, type) => ({ key, ...values, type });
 
-export const printDiff = (diff) => {
+export const render = (diff) => {
   const result = diff.reduce((acc, element) => {
     switch (element.type) {
       case 'added':
@@ -48,7 +48,7 @@ export const printDiff = (diff) => {
 
 export const buildDifference = (before, after) => {
   const keys = getKeys(before, after);
-  return keys.map((key) => {
+  const result = keys.map((key) => {
     const createNode = makeNode(key);
     if (_.has(before, key)) {
       if (_.has(after, key)) {
@@ -61,10 +61,11 @@ export const buildDifference = (before, after) => {
     }
     return createNode({ value: after[key] }, 'added');
   });
+  return result;
 };
 
 export default (first, second) => {
-  const before = readFile(first);
-  const after = readFile(second);
-  return printDiff(buildDifference(before, after));
+  const before = getParsedFile(first);
+  const after = getParsedFile(second);
+  return render(buildDifference(before, after));
 };
