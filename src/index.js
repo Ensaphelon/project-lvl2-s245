@@ -13,12 +13,13 @@ export const getParser = ext => (filePath) => {
   if (!parsers[ext]) {
     throw new Error(`Given format is not supported: ${ext}`);
   }
-  return parsers[ext](fs.readFileSync(filePath, 'utf8'));
+  return parsers[ext];
 };
 
 export const getParsedFile = (filePath) => {
   const ext = path.extname(filePath);
-  return getParser(ext)(filePath);
+  const parse = getParser(ext)();
+  return parse(fs.readFileSync(filePath, 'utf8'));
 };
 
 export const getKeys = (first, second) => _.union(_.keys(first), _.keys(second));
