@@ -5,7 +5,7 @@ const toString = (body) => {
   return `value: '${body}'`;
 };
 
-const renderPlain = (diff, parent = '') => diff.reduce((acc, element) => {
+const renderPlain = (diff, parentKey = '') => diff.reduce((acc, element) => {
   const {
     key,
     to,
@@ -15,17 +15,13 @@ const renderPlain = (diff, parent = '') => diff.reduce((acc, element) => {
 
   switch (element.type) {
     case 'added':
-      acc.push(`Property '${parent}${key}' was added with ${toString(to)}`);
-      break;
+      return [...acc, `Property '${parentKey}${key}' was added with ${toString(to)}`];
     case 'deleted':
-      acc.push(`Property '${parent}${key}' was removed`);
-      break;
+      return [...acc, `Property '${parentKey}${key}' was removed`];
     case 'modified':
-      acc.push(`Property '${parent}${key}' was updated. From ${toString(from)} to ${toString(to)}`);
-      break;
+      return [...acc, `Property '${parentKey}${key}' was updated. From ${toString(from)} to ${toString(to)}`];
     case 'inserted':
-      acc.push(renderPlain(children, `${parent}${key}.`));
-      break;
+      return [...acc, renderPlain(children, `${parentKey}${key}.`)];
     default:
       break;
   }

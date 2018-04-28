@@ -1,3 +1,5 @@
+import _ from 'lodash';
+
 const getSpacing = level => ' '.repeat(level * 4);
 
 const getKeyPart = (mode, level, key) => `${getSpacing(level)}  ${mode} ${key}: `;
@@ -19,24 +21,21 @@ const renderTree = (diff, level = 0) => {
     } = element;
     switch (element.type) {
       case 'added':
-        acc.push(`${getKeyPart('+', level, key)}${stringify(to, level + 1)}`);
-        break;
+        return [...acc, `${getKeyPart('+', level, key)}${stringify(to, level + 1)}`];
       case 'deleted':
-        acc.push(`${getKeyPart('-', level, key)}${stringify(to, level + 1)}`);
-        break;
+        return [...acc, `${getKeyPart('-', level, key)}${stringify(to, level + 1)}`];
       case 'modified':
-        acc.push(`${getKeyPart('-', level, key)}${stringify(from, level + 1)}\n${getKeyPart('+', level, key)}${stringify(to, level + 1)}`);
-        break;
+        return [...acc, [
+          `${getKeyPart('-', level, key)}${stringify(from, level + 1)}`,
+          `${getKeyPart('+', level, key)}${stringify(to, level + 1)}`,
+        ]];
       case 'inserted':
-        acc.push(`${getKeyPart(' ', level, key)}${renderTree(children, level + 1)}`);
-        break;
+        return [...acc, `${getKeyPart(' ', level, key)}${renderTree(children, level + 1)}`];
       default:
-        acc.push(`${getKeyPart(' ', level, key)}${stringify(to, level + 1)}`);
-        break;
+        return [...acc, `${getKeyPart(' ', level, key)}${stringify(to, level + 1)}`];
     }
-    return acc;
   }, []);
-  return ['{', ...result, `${getSpacing(level)}}`].join('\n');
+  return ['{', ..._.flatten(result), `${getSpacing(level)}}`].join('\n');
 };
 
 export default renderTree;
