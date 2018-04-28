@@ -29,3 +29,9 @@ describe('Format: plain', () => {
   test('Tree YAML', () => compare('treeBefore.yaml', 'treeAfter.yaml', 'tree', 'plain'));
   test('Tree INI', () => compare('treeBefore.ini', 'treeAfter.ini', 'tree', 'plain'));
 });
+
+
+describe('Format: JSON', () => {
+  test('Flat INI', () => compare('before.ini', 'after.ini', 'flat', 'json'));
+  test('Tree INI', () => compare('treeBefore.ini', 'treeAfter.ini', 'tree', 'json'));
+});
