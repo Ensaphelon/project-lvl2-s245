@@ -17,3 +17,9 @@ test('Flat JSON', () => compare('before.json', 'after.json', 'diff.txt'));
 test('Flat YAML', () => compare('before.yaml', 'after.yaml', 'diff.txt'));
 
 test('Flat INI', () => compare('before.ini', 'after.ini', 'diff.txt'));
+
+test('Tree JSON', () => compare('treeBefore.json', 'treeAfter.json', 'treeDiff.txt'));
+
+test('Tree YAML', () => compare('treeBefore.yaml', 'treeAfter.yaml', 'treeDiff.txt'));
+
+test('Tree INI', () => compare('treeBefore.ini', 'treeAfter.ini', 'treeDiff.txt'));

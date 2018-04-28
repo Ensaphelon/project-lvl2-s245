@@ -3,6 +3,7 @@ import ini from 'ini';
 import yaml from 'js-yaml';
 import path from 'path';
 import _ from 'lodash';
+import render from './renderers';
 
 export const getParser = ext => (filePath) => {
   const parsers = {
@@ -26,41 +27,24 @@ export const getKeys = (first, second) => _.union(_.keys(first), _.keys(second))
 
 export const makeNode = key => (values, type) => ({ key, ...values, type });
 
-export const render = (diff) => {
-  const result = diff.reduce((acc, element) => {
-    switch (element.type) {
-      case 'added':
-        acc.push(`  + ${element.key}: ${element.value}`);
-        break;
-      case 'deleted':
-        acc.push(`  - ${element.key}: ${element.value}`);
-        break;
-      case 'modified':
-        acc.push(`  - ${element.key}: ${element.oldValue}\n  + ${element.key}: ${element.newValue}`);
-        break;
-      default:
-        acc.push(`  ${element.key}: ${element.value}`);
-        break;
-    }
-    return acc;
-  }, []);
-  return `{\n${result.join('\n')}\n}`;
-};
-
-export const buildDifference = (before, after) => {
+export const buildDifference = (before, after, level = 0) => {
+  const newLevel = level + 1;
   const keys = getKeys(before, after);
   const result = keys.map((key) => {
     const createNode = makeNode(key);
     if (_.has(before, key)) {
       if (_.has(after, key)) {
-        if (before[key] === after[key]) {
-          return createNode({ value: before[key] }, 'same');
+        if (before[key] instanceof Object && after[key] instanceof Object) {
+          return createNode({ children: buildDifference(before[key], after[key], newLevel), level: newLevel }, 'inserted');
         }
-        return createNode({ oldValue: before[key], newValue: after[key] }, 'modified');
+        if (before[key] === after[key]) {
+          return createNode({ to: before[key], level: newLevel }, 'same');
+        }
+        return createNode({ from: before[key], to: after[key], level: newLevel }, 'modified');
       }
-      return createNode({ value: before[key] }, 'deleted');
+      return createNode({ to: before[key], level: newLevel }, 'deleted');
     }
-    return createNode({ value: after[key] }, 'added');
+    return createNode({ to: after[key], level: newLevel }, 'added');
   });
   return result;
 };
@@ -68,5 +52,6 @@ export const buildDifference = (before, after) => {
 export default (first, second) => {
   const before = getParsedFile(first);
   const after = getParsedFile(second);
-  return render(buildDifference(before, after));
+  const difference = buildDifference(before, after);
+  return render(difference);
 };
