@@ -1,5 +1,3 @@
-import fs from 'fs';
-
 const toString = (body) => {
   if (body instanceof Object) {
     return 'complex value';
@@ -7,33 +5,31 @@ const toString = (body) => {
   return `value: '${body}'`;
 };
 
-const renderPlain = (diff, parent = '') => {
-  return diff.reduce((acc, element) => {
-    const {
-      key,
-      to,
-      from,
-      children,
-    } = element;
+const renderPlain = (diff, parent = '') => diff.reduce((acc, element) => {
+  const {
+    key,
+    to,
+    from,
+    children,
+  } = element;
 
-    switch (element.type) {
-      case 'added':
-        acc.push(`Property '${parent}${key}' was added with ${toString(to)}`);
-        break;
-      case 'deleted':
-        acc.push(`Property '${parent}${key}' was removed`);
-        break;
-      case 'modified':
-        acc.push(`Property '${parent}${key}' was updated. From ${toString(from)} to ${toString(to)}`);
-        break;
-      case 'inserted':
-        acc.push(renderPlain(children, `${parent}${key}.`));
-        break;
-      default:
-        break;
-    }
-    return acc;
-  }, []).join('\n');
-};
+  switch (element.type) {
+    case 'added':
+      acc.push(`Property '${parent}${key}' was added with ${toString(to)}`);
+      break;
+    case 'deleted':
+      acc.push(`Property '${parent}${key}' was removed`);
+      break;
+    case 'modified':
+      acc.push(`Property '${parent}${key}' was updated. From ${toString(from)} to ${toString(to)}`);
+      break;
+    case 'inserted':
+      acc.push(renderPlain(children, `${parent}${key}.`));
+      break;
+    default:
+      break;
+  }
+  return acc;
+}, []).join('\n');
 
 export default renderPlain;
