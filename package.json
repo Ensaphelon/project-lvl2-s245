@@ -1,6 +1,6 @@
 {
   "name": "ensaphelon-gendiff",
-  "version": "0.3.2",
+  "version": "0.5.0",
   "description": "Hexlet project \"Difference generator\"",
   "main": "index.js",
   "dependencies": {
