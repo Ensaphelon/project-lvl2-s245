@@ -1,8 +1,6 @@
 const getSpacing = level => ' '.repeat(level * 4);
 
-const getInfo = mode => `  ${mode} `;
-
-const getKeyPart = (mode, level, key) => `${getSpacing(level)}${getInfo(mode)}${key}: `;
+const getKeyPart = (mode, level, key) => `${getSpacing(level)}  ${mode} ${key}: `;
 
 const stringify = (body, level) => {
   if (body instanceof Object) {
