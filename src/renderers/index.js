@@ -2,9 +2,7 @@ const getSpacing = level => ' '.repeat(level * 4);
 
 const getInfo = mode => `  ${mode} `;
 
-const getKeyPart = (mode, level, key) => {
-  return `${getSpacing(level)}${getInfo(mode)}${key}: `;
-}
+const getKeyPart = (mode, level, key) => `${getSpacing(level)}${getInfo(mode)}${key}: `;
 
 const stringify = (body, level) => {
   if (body instanceof Object) {
@@ -18,7 +16,9 @@ const stringify = (body, level) => {
 
 const render = (diff, level = 0) => {
   const result = diff.reduce((acc, element) => {
-    const { key, to, from, children } = element;
+    const {
+      key, to, from, children,
+    } = element;
     switch (element.type) {
       case 'added':
         acc.push(`${getKeyPart('+', level, key)}${stringify(to, level + 1)}`);

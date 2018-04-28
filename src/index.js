@@ -5,7 +5,7 @@ import path from 'path';
 import _ from 'lodash';
 import render from './renderers';
 
-export const getParser = ext => (filePath) => {
+export const getParser = ext => () => {
   const parsers = {
     '.json': JSON.parse,
     '.yaml': yaml.safeLoad,
