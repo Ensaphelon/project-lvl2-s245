@@ -8,7 +8,6 @@ const toString = (body) => {
 };
 
 const renderPlain = (diff, parent = '') => {
-  fs.writeFileSync('logs/difference.json', JSON.stringify(diff, null, 4));
   return diff.reduce((acc, element) => {
     const {
       key,
