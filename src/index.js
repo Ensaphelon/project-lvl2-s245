@@ -49,9 +49,9 @@ export const buildDifference = (before, after, level = 0) => {
   return result;
 };
 
-export default (first, second) => {
+export default (first, second, format) => {
   const before = getParsedFile(first);
   const after = getParsedFile(second);
   const difference = buildDifference(before, after);
-  return render(difference);
+  return render(difference, format);
 };
