@@ -15,24 +15,24 @@ const stringify = (body, level) => {
 };
 
 const renderTree = (diff, level = 0) => {
-  const result = diff.reduce((acc, element) => {
+  const result = diff.map((element) => {
     const {
       key, to, from, children,
     } = element;
     switch (element.type) {
       case 'added':
-        return [...acc, `${getKeyPart('+', level, key)}${stringify(to, level + 1)}`];
+        return [`${getKeyPart('+', level, key)}${stringify(to, level + 1)}`];
       case 'deleted':
-        return [...acc, `${getKeyPart('-', level, key)}${stringify(to, level + 1)}`];
+        return [`${getKeyPart('-', level, key)}${stringify(to, level + 1)}`];
       case 'modified':
-        return [...acc, [
+        return [
           `${getKeyPart('-', level, key)}${stringify(from, level + 1)}`,
           `${getKeyPart('+', level, key)}${stringify(to, level + 1)}`,
-        ]];
+        ];
       case 'inserted':
-        return [...acc, `${getKeyPart(' ', level, key)}${renderTree(children, level + 1)}`];
+        return [`${getKeyPart(' ', level, key)}${renderTree(children, level + 1)}`];
       default:
-        return [...acc, `${getKeyPart(' ', level, key)}${stringify(to, level + 1)}`];
+        return [`${getKeyPart(' ', level, key)}${stringify(to, level + 1)}`];
     }
   }, []);
   return ['{', ..._.flatten(result), `${getSpacing(level)}}`].join('\n');

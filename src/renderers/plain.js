@@ -5,7 +5,7 @@ const toString = (body) => {
   return `value: '${body}'`;
 };
 
-const renderPlain = (diff, parentKey = '') => diff.reduce((acc, element) => {
+const renderPlain = (diff, parentKey = '') => diff.map((element) => {
   const {
     key,
     to,
@@ -15,17 +15,16 @@ const renderPlain = (diff, parentKey = '') => diff.reduce((acc, element) => {
 
   switch (element.type) {
     case 'added':
-      return [...acc, `Property '${parentKey}${key}' was added with ${toString(to)}`];
+      return `Property '${parentKey}${key}' was added with ${toString(to)}`;
     case 'deleted':
-      return [...acc, `Property '${parentKey}${key}' was removed`];
+      return `Property '${parentKey}${key}' was removed`;
     case 'modified':
-      return [...acc, `Property '${parentKey}${key}' was updated. From ${toString(from)} to ${toString(to)}`];
+      return `Property '${parentKey}${key}' was updated. From ${toString(from)} to ${toString(to)}`;
     case 'inserted':
-      return [...acc, renderPlain(children, `${parentKey}${key}.`)];
+      return renderPlain(children, `${parentKey}${key}.`);
     default:
-      break;
+      return element;
   }
-  return acc;
-}, []).join('\n');
+}, []).filter(node => typeof node === 'string').join('\n');
 
 export default renderPlain;
